@@ -1,0 +1,11 @@
+**/build
+**/.gradle
+**/bin
+**/.vscode/**
+**/node_modules/**
+**/dist/**
+**/gui-artifacts/**
+**/dybm_output/**
+.env
+.env.local
+**/.kotlin

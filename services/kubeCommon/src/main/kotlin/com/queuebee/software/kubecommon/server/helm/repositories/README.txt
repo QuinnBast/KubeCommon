@@ -1,0 +1,2 @@
+Server will be able to connect to and automatically pull helm deployments from a variety of remote helm repositories.
+You can even login to your own private helm repository and pull down helm charts from there.
