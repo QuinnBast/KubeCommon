@@ -19,7 +19,7 @@ class ApiControllerV1(
 
     // Temporary.
     // The user would be passing this in from the frontend.
-    val currentNamespace = "argocd"
+    val currentNamespace = "kube-system"
 
     suspend fun getNamespaces(context: RoutingContext) {
         logger.info("Getting all namespaces")
@@ -30,63 +30,63 @@ class ApiControllerV1(
 
     suspend fun getAllPods(context: RoutingContext) {
         logger.info("Getting all pods")
-        KubernetesClient().getPodsInNamespace("argocd").let {
+        KubernetesClient().getPodsInNamespace(currentNamespace).let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllSecrets(context: RoutingContext) {
         logger.info("Getting all secrets")
-        KubernetesClient().getSecretsInNamespace("argocd").let {
+        KubernetesClient().getSecretsInNamespace(currentNamespace).let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllConfigMaps(context: RoutingContext) {
         logger.info("Getting all config maps")
-        KubernetesClient().getConfigMapsInNamespace("argocd")?.let {
+        KubernetesClient().getConfigMapsInNamespace(currentNamespace)?.let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllDeployments(context: RoutingContext) {
         logger.info("Getting all deployments")
-        KubernetesClient().getDeploymentInNamespace("argocd")?.let {
+        KubernetesClient().getDeploymentInNamespace(currentNamespace)?.let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllServices(context: RoutingContext) {
         logger.info("Getting all services")
-        KubernetesClient().getServicesInNamespace("argocd")?.let {
+        KubernetesClient().getServicesInNamespace(currentNamespace)?.let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllReplicaSets(context: RoutingContext) {
         logger.info("Getting all replica sets")
-        KubernetesClient().getReplicaSetsInNamespace("argocd")?.let {
+        KubernetesClient().getReplicaSetsInNamespace(currentNamespace)?.let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllDaemonSets(context: RoutingContext) {
         logger.info("Getting all daemon sets")
-        KubernetesClient().getDaemonSetsInNamespace("argocd")?.let {
+        KubernetesClient().getDaemonSetsInNamespace(currentNamespace)?.let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllStatefulSets(context: RoutingContext) {
         logger.info("Getting all stateful sets")
-        KubernetesClient().getStatefulSetsInNamespace("argocd")?.let {
+        KubernetesClient().getStatefulSetsInNamespace(currentNamespace)?.let {
             context.call.respond(it.items)
         }
     }
 
     suspend fun getAllIngresses(context: RoutingContext) {
         logger.info("Getting all ingresses")
-        KubernetesClient().getIngressesInNamespace("argocd")?.let {
+        KubernetesClient().getIngressesInNamespace(currentNamespace)?.let {
             context.call.respond(it.items)
         }
     }
@@ -94,7 +94,7 @@ class ApiControllerV1(
     suspend fun getPodLogs(context: RoutingContext) {
         val podName = context.call.parameters["podName"] ?: return
         logger.info("Getting logs for pod $podName")
-        KubernetesClient().getPodLogs("argocd", podName).let {
+        KubernetesClient().getPodLogs(currentNamespace, podName).let {
             context.call.respond(it)
         }
     }

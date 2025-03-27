@@ -3,4 +3,5 @@ server:
   basePath: ""
   cors:
     allowedHosts:
-      - "localhost"
+      - "*"
+      # - "localhost"

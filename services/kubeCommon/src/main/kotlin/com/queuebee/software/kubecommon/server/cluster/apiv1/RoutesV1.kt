@@ -33,4 +33,14 @@ fun Routing.createV1Routes(
     get("${config.server.basePath}/${AppVersion.v1}/configmaps") {
         controller.getAllConfigMaps(this)
     }
+    get("${config.server.basePath}/${AppVersion.v1}/secrets") {
+        controller.getAllSecrets(this)
+    }
+    get("${config.server.basePath}/${AppVersion.v1}/replicasets") {
+        controller.getAllReplicaSets(this)
+    }
+    get("${config.server.basePath}/${AppVersion.v1}/daemonsets") {
+        controller.getAllDaemonSets(this)
+    }
+
 }
