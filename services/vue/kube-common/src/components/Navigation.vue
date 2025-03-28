@@ -4,11 +4,11 @@ import { BNavItem, BNav } from "bootstrap-vue-next";
 
 <template>
     <BNav tabs class="custom-nav">
-      <BNavItem href="/">Home</BNavItem>
-      <BNavItem href="/cluster">Clusters</BNavItem>
-      <BNavItem href="/helm">Helm</BNavItem>
-      <BNavItem href="/templates">Templates</BNavItem>
-      <BNavItem href="/variables">Variables</BNavItem>
+      <BNavItem><RouterLink to="/">Home</RouterLink></BNavItem>
+      <BNavItem><RouterLink to="/cluster">Cluster</RouterLink></BNavItem>
+      <BNavItem><RouterLink to="/helm">Helm</RouterLink></BNavItem>
+      <BNavItem><RouterLink to="/templates">Templates</RouterLink></BNavItem>
+      <BNavItem><RouterLink to="/variables">Variables</RouterLink></BNavItem>
     </BNav>
 </template>
 

@@ -1,11 +1,26 @@
 {
   "name": "kube-common",
   "version": "0.0.0",
+  "description": "Conquer the Kubernetes world",
   "private": true,
   "type": "module",
+  "main": "main.js",
+  "homepage": "./",
+  "author": "Quinn Bast",
+  "build": {
+    "appId": "com.queuebee.software.kubecommon",
+    "directories": {
+      "output": "electron/release"
+    },
+    "files": [
+      "dist/**/*",
+      "**/*"
+    ]
+  },
   "scripts": {
+    "electron-dev": "electron .",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --emptyOutDir && electron-builder",
     "preview": "vite preview",
     "format": "prettier --write src/"
   },
@@ -21,6 +36,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
+    "electron": "^35.1.2",
+    "electron-builder": "^26.0.12",
     "prettier": "3.5.3",
     "vite": "^6.2.1",
     "vite-plugin-vue-devtools": "^7.7.2"
