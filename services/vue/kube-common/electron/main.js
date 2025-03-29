@@ -1,14 +1,20 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { fileURLToPath } from "url";
+import path from "path";
+import {registerKubernetesIpc} from './kubernetesIpc.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            contextIsolation: false,
+            contextIsolation: true,
             nodeIntegration: true,
             enableRemoteModule: true,
-            preload: 'preload.js',
+            preload: path.join(__dirname, 'preload.js'),
         },
     })
 
@@ -18,8 +24,8 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
+    registerKubernetesIpc(ipcMain)
     createWindow()
-
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })

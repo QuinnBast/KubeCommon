@@ -2,7 +2,7 @@
 import { BListGroup, BListGroupItem, BCol, BRow } from "bootstrap-vue-next";
 import {ref} from "vue";
 import ClusterResourceListing from "@/views/clusterViews/ClusterResourceListing.vue";
-import { fieldMappings, resourceUrls } from "@/views/clusterViews/clusterResourceFieldMappings.js";
+import { resourceMapping } from "@/views/clusterViews/clusterResourceFieldMappings.js";
 
 const showingTab = ref("Namespaces")
 
@@ -14,13 +14,10 @@ function isActive(name) {
   return name === showingTab.value;
 }
 
-function getFieldsFor(tab) {
-  return fieldMappings[tab]
+function getResourceMappingFor(tab) {
+  return resourceMapping[tab]
 }
 
-function getUrlFor(tab) {
-  return "http://localhost:4242/" + resourceUrls[tab];
-}
 </script>
 
 <template>
@@ -38,6 +35,7 @@ function getUrlFor(tab) {
             <BListGroupItem href="" @click="switchTab('Deployments');" :active="isActive('Deployments')">Deployments</BListGroupItem>
             <BListGroupItem href="" @click="switchTab('Services');" :active="isActive('Services')">Services</BListGroupItem>
             <BListGroupItem href="" @click="switchTab('ReplicaSets');" :active="isActive('ReplicaSets')">Replica Sets</BListGroupItem>
+            <BListGroupItem href="" @click="switchTab('StatefulSets');" :active="isActive('StatefulSets')">Stateful Sets</BListGroupItem>
             <BListGroupItem href="" @click="switchTab('DaemonSets');" :active="isActive('DaemonSets')">Daemon Sets</BListGroupItem>
             <BListGroupItem href="" @click="switchTab('Nodes');" :active="isActive('Nodes')">Nodes</BListGroupItem>
           </BListGroup>
@@ -45,8 +43,7 @@ function getUrlFor(tab) {
         <BCol :key="showingTab">
           <ClusterResourceListing
               :key="showingTab"
-              :fields="getFieldsFor(showingTab)"
-              :url="getUrlFor(showingTab)"
+              :resourceMapping="getResourceMappingFor(showingTab)"
             />
         </BCol>
       </BRow>
