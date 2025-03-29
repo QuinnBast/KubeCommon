@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kubeCommon.iml" filepath="$PROJECT_DIR$/.idea/modules/kubeCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/KubeCommon.iml" filepath="$PROJECT_DIR$/.idea/KubeCommon.iml" />
     </modules>
   </component>
 </project>

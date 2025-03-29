@@ -1,10 +1,8 @@
-const { contextBridge, ipcRenderer } = require('electron/renderer')
+import {contextBridge, ipcRenderer} from "electron/renderer";
+import type { KubernetesApi } from "../types/global.d.ts";
 
-// Create a Context Bridge.
-// This is like setting up the REST APIs to allow communication.
-// You can call these functions through: `window.electron.myFunction
-contextBridge.exposeInMainWorld('electron', {
-    setTitle: (title) => ipcRenderer.send('set-title', title),
+
+export const api: KubernetesApi = {
     loadKubeconfig: () => ipcRenderer.invoke('kubeconfig:openFile'),
     getContexts: () => ipcRenderer.invoke('kubeconfig:getContexts'),
     getCurrentContext: () => ipcRenderer.invoke('kubeconfig:getCurrentContext'),
@@ -19,4 +17,9 @@ contextBridge.exposeInMainWorld('electron', {
     getStatefulSets: () => ipcRenderer.invoke('kubeconfig:getStatefulSets'),
     getNodes: () => ipcRenderer.invoke('kubeconfig:getNodes'),
     getServices: () => ipcRenderer.invoke('kubeconfig:getServices'),
-})
+}
+
+// Create a Context Bridge.
+// This is like setting up the REST APIs to allow communication.
+// You can call these functions through: `window.electron.myFunction
+contextBridge.exposeInMainWorld('electron', api)

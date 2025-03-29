@@ -1,12 +1,12 @@
 <script setup>
-import {  RouterView } from 'vue-router'
-import Navigation from "@/components/Navigation.vue";
-import { BToastOrchestrator } from "bootstrap-vue-next";
+import { RouterView } from 'vue-router'
+import ClusterNavBar from '@/components/ClusterNavBar.vue'
+import { BToastOrchestrator } from 'bootstrap-vue-next'
 </script>
 
 <template>
   <div class="full">
-    <Navigation/>
+    <ClusterNavBar />
     <BToastOrchestrator />
     <div>
       <RouterView />

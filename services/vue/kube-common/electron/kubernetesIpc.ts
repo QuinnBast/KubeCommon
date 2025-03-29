@@ -1,11 +1,39 @@
-import {dialog} from "electron";
+import { dialog } from "electron";
 import * as k8s from '@kubernetes/client-node';
 
 const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
-var k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 
-export function registerKubernetesIpc(ipcMain) {
+let coreApi: k8s.CoreV1Api,
+    appsApi: k8s.AppsV1Api,
+    batchApi: k8s.BatchV1Api,
+    networkingApi: k8s.NetworkingV1Api,
+    storageApi: k8s.StorageV1Api,
+    crdApi: k8s.ApiextensionsV1Api,
+    eventsApi: k8s.EventsV1Api,
+    rbacApi: k8s.RbacAuthorizationV1Api,
+    leaseApi: k8s.CoordinationV1Api;
+
+/*
+  View the API docs here: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#daemonset-v1-apps
+  Each 'object' has its own API and you need a client for each one for some reason.
+  These docs help to understand which objects come from where.
+ */
+function createApisFromContext() {
+    coreApi = kc.makeApiClient(k8s.CoreV1Api);
+    appsApi = kc.makeApiClient(k8s.AppsV1Api);
+    batchApi = kc.makeApiClient(k8s.BatchV1Api);
+    networkingApi = kc.makeApiClient(k8s.NetworkingV1Api)
+    storageApi = kc.makeApiClient(k8s.StorageV1Api)
+    crdApi = kc.makeApiClient(k8s.ApiextensionsV1Api)
+    eventsApi = kc.makeApiClient(k8s.EventsV1Api)
+    rbacApi = kc.makeApiClient(k8s.RbacAuthorizationV1Api)
+    leaseApi = kc.makeApiClient(k8s.CoordinationV1Api)
+}
+
+createApisFromContext()
+
+export function registerKubernetesIpc(ipcMain: Electron.IpcMain) {
     ipcMain.handle('kubeconfig:openFile', handleFileOpen)
     ipcMain.handle('kubeconfig:getContexts', getKubeContexts)
     ipcMain.handle('kubeconfig:getCurrentContext', getCurrentContext)
@@ -30,7 +58,7 @@ async function handleFileOpen() {
 
 async function getKubeContexts() {
     console.log("Getting contexts.")
-    var contexts = kc.getContexts()
+    const contexts = kc.getContexts()
     console.log("Contexts: " + JSON.stringify(contexts))
     return contexts
 }
@@ -40,67 +68,63 @@ async function getCurrentContext() {
     return kc.getCurrentContext()
 }
 
-async function setContext(event, contextName) {
+async function setContext(event, contextName: string) {
     console.log(`Setting context to ${contextName}`)
     kc.setCurrentContext(contextName)
     // We need to update our client after we change contexts.
-    k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+    createApisFromContext()
 }
 
 async function getPods() {
     console.log("Getting pods")
-    return k8sApi.listPodForAllNamespaces();
+    return coreApi.listPodForAllNamespaces();
 }
 
 async function getDeployments() {
     console.log("Getting deployments")
-    var api = kc.makeApiClient(k8s.AppsV1Api);
-    return api.listDeploymentForAllNamespaces();
+    return appsApi.listDeploymentForAllNamespaces();
 }
 
 /** Not sure why, but these functions are in a different set of APIs and need to have a different client created. **/
 // https://github.com/kubernetes-client/javascript/issues/2339
 async function getStatefulSets() {
     console.log("Getting Stateful Sets")
-    var api = kc.makeApiClient(k8s.AppsV1Api);
-    return api.listStatefulSetForAllNamespaces();
+    return appsApi.listStatefulSetForAllNamespaces();
 }
 
 async function getReplicaSets() {
     console.log("Getting Replica Sets")
-    var api = kc.makeApiClient(k8s.AppsV1Api);
-    return api.listReplicaSetForAllNamespaces();
+    return appsApi.listReplicaSetForAllNamespaces();
 }
 
 
 async function getDaemonsets() {
     console.log("Getting Daemon Sets")
-    var api = kc.makeApiClient(k8s.AppsV1Api);
-    return api.listDaemonSetForAllNamespaces();
+    return appsApi.listDaemonSetForAllNamespaces();
 }
 
 async function getConfigMaps() {
     console.log("Getting Configmaps")
-    return k8sApi.listConfigMapForAllNamespaces();
+    return coreApi.listConfigMapForAllNamespaces();
 }
 
 async function getSecrets() {
     console.log("Getting Secrets")
-    return k8sApi.listSecretForAllNamespaces();
+    return coreApi.listSecretForAllNamespaces();
 }
 
 
 async function getNodes() {
     console.log("Getting Nodes")
-    return k8sApi.listNode();
+    return coreApi.listNode();
 }
 
 async function getNamespaces() {
     console.log("Getting Namespaces")
-    return k8sApi.listNamespace();
+    return coreApi.listNamespace();
 }
 
 async function getServices() {
     console.log("Getting Services")
-    return k8sApi.listServiceForAllNamespaces();
+    return coreApi.listServiceForAllNamespaces();
 }
