@@ -2,11 +2,12 @@ const { contextBridge, ipcRenderer } = require('electron/renderer')
 
 // Create a Context Bridge.
 // This is like setting up the REST APIs to allow communication.
-// You can call these functions through: `window.electronAPI.myFunction
-contextBridge.exposeInMainWorld('electronAPI', {
+// You can call these functions through: `window.electron.myFunction
+contextBridge.exposeInMainWorld('electron', {
     setTitle: (title) => ipcRenderer.send('set-title', title),
     loadKubeconfig: () => ipcRenderer.invoke('kubeconfig:openFile'),
     getContexts: () => ipcRenderer.invoke('kubeconfig:getContexts'),
+    getCurrentContext: () => ipcRenderer.invoke('kubeconfig:getCurrentContext'),
     setContext: (contextName) => ipcRenderer.send('kubeconfig:setContext', contextName),
     getPods: () => ipcRenderer.invoke('kubeconfig:getPods'),
     getNamespaces: () => ipcRenderer.invoke('kubeconfig:getNamespaces'),

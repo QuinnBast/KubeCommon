@@ -9,8 +9,8 @@ function getManagedBy(resource) {
 }
 
 const resourceMapping = {
-    "Pods": {
-        getResource: window.electronAPI.getPods,
+    "Pod": {
+        getResource: window.electron.getPods,
         fields: [
             {
                 key: 'metadata.namespace',
@@ -51,8 +51,8 @@ const resourceMapping = {
             },
         ]
     },
-    "Services": {
-        getResource: window.electronAPI.getServices,
+    "Service": {
+        getResource: window.electron.getServices,
         fields: [
             {
                 key: 'metadata.namespace',
@@ -86,8 +86,8 @@ const resourceMapping = {
             },
         ]
     },
-    "Deployments": {
-        getResource: window.electronAPI.getDeployments,
+    "Deployment": {
+        getResource: window.electron.getDeployments,
         fields: [
             {
                 key: 'metadata.namespace',
@@ -118,8 +118,8 @@ const resourceMapping = {
             },
         ]
     },
-    "ReplicaSets": {
-        getResource: window.electronAPI.getReplicaSets,
+    "ReplicaSet": {
+        getResource: window.electron.getReplicaSets,
         fields: [
             {
                 key: 'metadata.namespace',
@@ -150,8 +150,8 @@ const resourceMapping = {
             },
         ]
     },
-    "Nodes": {
-        getResource: window.electronAPI.getNodes,
+    "Node": {
+        getResource: window.electron.getNodes,
         fields: [
             {
                 key: 'metadata.name',
@@ -176,8 +176,8 @@ const resourceMapping = {
             },
         ]
     },
-    "Namespaces": {
-        getResource: window.electronAPI.getNamespaces,
+    "Namespace": {
+        getResource: window.electron.getNamespaces,
         fields: [
             {
                 key: 'metadata.name',
@@ -193,8 +193,8 @@ const resourceMapping = {
             },
         ]
     },
-    "DaemonSets": {
-        getResource: window.electronAPI.getDaemonSets,
+    "DaemonSet": {
+        getResource: window.electron.getDaemonSets,
         fields: [
             {
                 key: 'metadata.namespace',
@@ -220,8 +220,8 @@ const resourceMapping = {
             },
         ]
     },
-    "StatefulSets": {
-        getResource: window.electronAPI.getStatefulSets,
+    "StatefulSet": {
+        getResource: window.electron.getStatefulSets,
         fields: [
             {
                 key: 'metadata.namespace',
@@ -247,8 +247,8 @@ const resourceMapping = {
             },
         ]
     },
-    "ConfigMaps": {
-        getResource: window.electronAPI.getConfigMaps,
+    "ConfigMap": {
+        getResource: window.electron.getConfigMaps,
         fields: [
             {
                 key: 'metadata.namespace',
@@ -264,8 +264,8 @@ const resourceMapping = {
             },
         ]
     },
-    "Secrets": {
-        getResource: window.electronAPI.getSecrets,
+    "Secret": {
+        getResource: window.electron.getSecrets,
         fields: [
             {
                 key: 'metadata.namespace',
