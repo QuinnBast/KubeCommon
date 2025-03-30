@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { BNavItem, BNav } from 'bootstrap-vue-next'
 </script>
 

@@ -31,7 +31,7 @@ function getResourceMappingFor(tab) {
 }
 
 function getContextList() {
-  window.electron
+  window.electron.k8s
     .getContexts()
     .then((success) => {
       console.log(`Got current context list: ${JSON.stringify(success)}`)
@@ -44,15 +44,15 @@ function getContextList() {
     })
 }
 
-function setContext(contextName) {
-  window.electron.setContext(contextName)
+function setContext(contextName: string) {
+  window.electron.k8s.setContext(contextName)
   // Should update the resource listing for the current page here.
   // Maybe expose an event that lets us do that from the Resource View panel?
   getCurrentContext()
 }
 
 function getCurrentContext() {
-  window.electron.getCurrentContext().then((success) => {
+  window.electron.k8s.getCurrentContext().then((success) => {
     console.log(`Got current context: ${success}`)
     currentContext.value = success
   })

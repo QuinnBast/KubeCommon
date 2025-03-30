@@ -1,7 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { fileURLToPath } from "url";
 import path from "path";
-import {registerKubernetesIpc} from './kubernetesIpc.js';
+import {ConfigHandler} from "./apis/configApi.js";
+import {KubeApi} from "./apis/kubernetesApi.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,7 +33,12 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
-    registerKubernetesIpc(ipcMain)
+    const configHandler = new ConfigHandler();
+    configHandler.registerIpc(ipcMain);
+
+    const kubeApi = new KubeApi(configHandler);
+    kubeApi.registerIpcHandlers(ipcMain);
+
     createWindow()
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()

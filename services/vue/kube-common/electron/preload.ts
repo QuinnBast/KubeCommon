@@ -1,16 +1,13 @@
-// IMPORTANT!!
-// For some reason the transpiler adds a random export to the bottom of this file.
-// Screw that, I just been manually removing it to make builds work
-
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const {contextBridge, ipcRenderer} = require('electron');
-import type { KubernetesApi } from "../types/global.d.ts";
+import type { KubernetesApi } from "../types/kubernetesTypes.d.ts";
+import type {ConfigApi} from "../types/configTypes";
 
 function ipcInvoke<R>(channel: string, ...args: never[]) {
     return ipcRenderer.invoke(channel, ...args) as Promise<R>;
 }
 
-const api: KubernetesApi = {
+const k8sApi: KubernetesApi = {
     loadKubeconfig: () => ipcInvoke('kubeconfig:openFile'),
     getContexts: () => ipcInvoke('kubeconfig:getContexts'),
     getCurrentContext: () => ipcInvoke('kubeconfig:getCurrentContext'),
@@ -27,7 +24,15 @@ const api: KubernetesApi = {
     getServices: () => ipcInvoke('kubeconfig:getServices'),
 }
 
+const configApi: ConfigApi = {
+    getConfig: () => ipcInvoke('config:getConfig'),
+    setConfig: (config) => ipcRenderer.send('config:setConfig', config),
+}
+
 // Create a Context Bridge.
 // This is like setting up the REST APIs to allow communication.
 // You can call these functions through: `window.electron.myFunction
-contextBridge.exposeInMainWorld('electron', api)
+contextBridge.exposeInMainWorld('electron', {
+    k8s: k8sApi,
+    config: configApi
+})

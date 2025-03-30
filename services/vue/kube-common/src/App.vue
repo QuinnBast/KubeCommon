@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { RouterView } from 'vue-router'
 import ClusterNavBar from '@/components/ClusterNavBar.vue'
 import { BToastOrchestrator } from 'bootstrap-vue-next'

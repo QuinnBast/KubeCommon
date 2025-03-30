@@ -1,5 +1,4 @@
-import type { KubernetesApi } from "../../../types/global"
-import type { V1ObjectMeta } from "@kubernetes/client-node";
+import type {KubernetesObject, V1ObjectMeta} from "@kubernetes/client-node";
 
 function getManagedBy(meta: V1ObjectMeta) {
   if (
@@ -13,10 +12,21 @@ function getManagedBy(meta: V1ObjectMeta) {
 }
 
 interface KubernetesResourceMapping {
-  Pod: {
-    getResource: () => KubernetesObject,
-    fields: Array<BTableFieldMapping>
-  }
+  Pod: ResourceMapping,
+  Service: ResourceMapping,
+  DaemonSet: ResourceMapping,
+  Configmap: ResourceMapping,
+  Deployment: ResourceMapping,
+  ReplicaSet: ResourceMapping,
+  Node: ResourceMapping,
+  Namespace: ResourceMapping,
+  StatefulSet: ResourceMapping,
+  Secret: ResourceMapping,
+}
+
+interface ResourceMapping {
+  getResource: () => Promise<KubernetesObject>,
+  fields: Array<BTableFieldMapping>
 }
 
 interface BTableFieldMapping {
@@ -29,7 +39,7 @@ interface BTableFieldMapping {
 
 const resourceMapping: KubernetesResourceMapping = {
   Pod: {
-    getResource: window.electron.getPods,
+    getResource: window.electron.k8s.getPods,
     fields: [
       {
         key: 'metadata.namespace',
@@ -71,7 +81,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   Service: {
-    getResource: window.electron.getServices,
+    getResource: window.electron.k8s.getServices,
     fields: [
       {
         key: 'metadata.namespace',
@@ -109,7 +119,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   Deployment: {
-    getResource: window.electron.getDeployments,
+    getResource: window.electron.k8s.getDeployments,
     fields: [
       {
         key: 'metadata.namespace',
@@ -141,7 +151,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   ReplicaSet: {
-    getResource: window.electron.getReplicaSets,
+    getResource: window.electron.k8s.getReplicaSets,
     fields: [
       {
         key: 'metadata.namespace',
@@ -173,7 +183,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   Node: {
-    getResource: window.electron.getNodes,
+    getResource: window.electron.k8s.getNodes,
     fields: [
       {
         key: 'metadata.name',
@@ -202,7 +212,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   Namespace: {
-    getResource: window.electron.getNamespaces,
+    getResource: window.electron.k8s.getNamespaces,
     fields: [
       {
         key: 'metadata.name',
@@ -219,7 +229,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   DaemonSet: {
-    getResource: window.electron.getDaemonSets,
+    getResource: window.electron.k8s.getDaemonSets,
     fields: [
       {
         key: 'metadata.namespace',
@@ -246,7 +256,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   StatefulSet: {
-    getResource: window.electron.getStatefulSets,
+    getResource: window.electron.k8s.getStatefulSets,
     fields: [
       {
         key: 'metadata.namespace',
@@ -273,7 +283,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   ConfigMap: {
-    getResource: window.electron.getConfigMaps,
+    getResource: window.electron.k8s.getConfigMaps,
     fields: [
       {
         key: 'metadata.namespace',
@@ -290,7 +300,7 @@ const resourceMapping: KubernetesResourceMapping = {
     ],
   },
   Secret: {
-    getResource: window.electron.getSecrets,
+    getResource: window.electron.k8s.getSecrets,
     fields: [
       {
         key: 'metadata.namespace',
