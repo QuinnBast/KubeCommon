@@ -14,13 +14,9 @@ function getManagedBy(meta: V1ObjectMeta) {
 
 interface KubernetesResourceMapping {
   Pod: {
-    getResource: KubernetesApiFunction,
+    getResource: () => KubernetesObject,
     fields: Array<BTableFieldMapping>
   }
-}
-
-interface KubernetesApiFunction {
-  (): KubernetesObject
 }
 
 interface BTableFieldMapping {

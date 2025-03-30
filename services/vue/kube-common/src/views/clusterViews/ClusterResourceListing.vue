@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { BTable, BAccordion, BAccordionItem, BButton } from 'bootstrap-vue-next'
 import DetailedResourceView from '@/views/clusterViews/DetailedResourceView.vue'
 import { JsonViewer } from 'vue3-json-viewer'

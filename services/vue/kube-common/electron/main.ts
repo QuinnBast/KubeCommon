@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { fileURLToPath } from "url";
 import path from "path";
-import {registerKubernetesIpc} from './kubernetesIpc.ts';
+import {registerKubernetesIpc} from './kubernetesIpc.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,15 +12,21 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             contextIsolation: true,
-            nodeIntegration: true,
-            enableRemoteModule: true,
-            preload: path.join(__dirname, 'preload.ts'),
+            nodeIntegration: false,
+            devTools: true,
+            preload: path.join(__dirname, "preload.js"),
         },
     })
 
+    win.webContents.openDevTools();
+
+    // win.removeMenu()
+
+
     // This requires having the vue application already built and ready to be served.
     // You can develop with `npm run dev` and then build to electron after.
-    win.loadFile('dist/index.html').then(r => {
+    // !!! This is being called from the project root
+    win.loadFile(__dirname + '\\..\\dist\\index.html').then(r => {
         console.log("App ready!")
     })
 }

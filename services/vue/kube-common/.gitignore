@@ -29,3 +29,9 @@ coverage
 
 *.tsbuildinfo
 release
+dist-electron
+
+# Ignore all typescript files that get generated
+# Except for the ones in `types` folder
+**.d.ts
+!types

@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import ClusterView from '@/views/ClusterView.vue'
+import HomeView from "@/views/HomeView.vue";
+import ClusterView from "@/views/ClusterView.vue";
 
 const router = createRouter({
   history: process.env.IS_ELECTRON

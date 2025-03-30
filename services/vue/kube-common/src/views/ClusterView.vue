@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   BListGroup,
   BListGroupItem,
@@ -8,7 +8,7 @@ import {
   BDropdownItem,
   BInputGroup,
 } from 'bootstrap-vue-next'
-import { ref } from 'vue'
+import {ref} from 'vue'
 import ClusterResourceListing from '@/views/clusterViews/ClusterResourceListing.vue'
 import { resourceMapping } from '@/views/clusterViews/clusterResourceFieldMappings.ts'
 
@@ -31,7 +31,7 @@ function getResourceMappingFor(tab) {
 }
 
 function getContextList() {
-  window.electron.k8s
+  window.electron
     .getContexts()
     .then((success) => {
       console.log(`Got current context list: ${JSON.stringify(success)}`)
@@ -45,14 +45,14 @@ function getContextList() {
 }
 
 function setContext(contextName) {
-  window.electron.k8s.setContext(contextName)
+  window.electron.setContext(contextName)
   // Should update the resource listing for the current page here.
   // Maybe expose an event that lets us do that from the Resource View panel?
   getCurrentContext()
 }
 
 function getCurrentContext() {
-  window.electron.k8s.getCurrentContext().then((success) => {
+  window.electron.getCurrentContext().then((success) => {
     console.log(`Got current context: ${success}`)
     currentContext.value = success
   })

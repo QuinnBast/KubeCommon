@@ -1,5 +1,6 @@
 import { dialog } from "electron";
 import * as k8s from '@kubernetes/client-node';
+import IpcMainEvent = Electron.IpcMainEvent;
 
 const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
@@ -68,7 +69,7 @@ async function getCurrentContext() {
     return kc.getCurrentContext()
 }
 
-async function setContext(event, contextName: string) {
+async function setContext(event: IpcMainEvent, contextName: string) {
     console.log(`Setting context to ${contextName}`)
     kc.setCurrentContext(contextName)
     // We need to update our client after we change contexts.

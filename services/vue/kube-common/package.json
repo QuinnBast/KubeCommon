@@ -4,7 +4,7 @@
   "description": "Conquer the Kubernetes world",
   "private": true,
   "type": "module",
-  "main": "electron/main.js",
+  "main": "dist-electron/main.js",
   "homepage": "./",
   "author": "Quinn Bast",
   "build": {
@@ -14,11 +14,16 @@
     },
     "files": [
       "dist/**/*",
+      "dist-electron/**/*",
       "**/*"
+    ],
+    "extraResources": [
+      "dist-electron/**/*"
     ]
   },
   "scripts": {
-    "electron": "npm run build && electron .",
+    "electron": "npm run clean && npm run build && npm run transpile && electron .",
+    "electron-no-build": "electron .",
     "tsc": "tsc --build tsconfig.node.json",
     "dev": "vite",
     "build": "eslint . && vite build --emptyOutDir",
@@ -26,8 +31,9 @@
     "preview": "vite preview",
     "format": "prettier --write src/",
     "devtools": "vue-devtools",
-    "clean": "rm -rf ./dist",
-    "lint": "eslint ."
+    "clean": "rimraf ./dist && rimraf ./dist-electron",
+    "lint": "eslint .",
+    "transpile": "tsc --project electron/tsconfig.json && tsc --skipLibCheck --isolatedModules ./electron/preload.ts --outDir dist-electron"
   },
   "dependencies": {
     "@kubernetes/client-node": "1.0.0",
@@ -52,6 +58,7 @@
     "eslint-plugin-vue": "^10.0.0",
     "globals": "^16.0.0",
     "prettier": "3.5.3",
+    "rifraf": "^2.0.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
